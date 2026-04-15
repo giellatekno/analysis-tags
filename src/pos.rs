@@ -3,6 +3,9 @@
 pub enum Pos {
     /// Adjective
     A,
+    /// Abbreviation.
+    /// (TODO is this really a pos? It shows up in gram/tagfiles as one.)
+    ABBR,
     /// Adposition
     Adp,
     /// Adverb
@@ -46,6 +49,7 @@ impl Pos {
         use Pos::*;
         match self {
             A => "A",
+            ABBR => "ABBR",
             Adp => "Adp",
             Adv => "Adv",
             CC => "CC",
@@ -101,6 +105,7 @@ impl std::str::FromStr for Pos {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "A" => Ok(Pos::A),
+            "ABBR" => Ok(Pos::ABBR),
             "Adp" => Ok(Pos::Adp),
             "Adv" => Ok(Pos::Adv),
             "CC" => Ok(Pos::CC),

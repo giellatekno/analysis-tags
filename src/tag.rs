@@ -4,19 +4,17 @@ use crate::pos::{Pos, PosFromStrError};
 
 #[derive(Debug, PartialEq)]
 pub enum Tag<'a> {
-    /// A plan POS by itself.
-    Pos(Pos),
-    Pl,
-    Sg,
-    Indef,
-    /// Essive
-    Ess,
+    /// Accusative
+    Acc,
 
-    /// Cardinal
-    Card,
+    /// Acronym
+    Acr,
 
-    /// Personal pronoun
-    Pers,
+    /// Actio
+    Actio,
+
+    /// Allegro
+    Allegro,
 
     /// Arab numerals (a "number" can also be a word, e.g. "one", but "1" is
     /// an arabic numeral)
@@ -25,99 +23,32 @@ pub enum Tag<'a> {
     /// Attribute
     Attr,
 
-    /// Ordinal
-    Ord,
+    /// Cardinal
+    Card,
 
-    /// Reciprocal
-    Recipr,
-
-    /// Illative
-    Ill,
-
-    /// Negation verb
-    Neg,
-
-    /// Locative
-    Loc,
-
-    /// Indicative
-    Ind,
-
-    /// Infintive
-    Inf,
-
-    /// Proper Noun
-    Prop,
-
-    /// Reflecsive
-    Refl,
-
-    /// Perfect participle
-    PrfPrc,
-
-    /// Present participle
-    PrsPrc,
-
-    /// Neutral (gender?)
-    Neu,
-
-    /// Gerundium
-    Ger,
-
-    /// Interrogative
-    Interr,
-
-    /// Actio
-    Actio,
+    /// Cmp
+    Cmp,
 
     /// Cmp/xxx
-    Cmp(&'a str),
+    CmpX(&'a str),
 
-    /// Potential
-    Pot,
+    /// Comitative
+    Com,
+
+    /// Negative form of the verb
+    ConNeg,
+
+    /// Negative form of the verb (II)
+    ConNegII,
 
     /// Conditional (mood)
     Cond,
 
-    /// Imperative (mood)
-    Imprt,
+    /// Demonstrative
+    Dem,
 
-    /// Second Imperative
-    ImprtII,
-
-    /// Verbal genitive
-    VGen,
-
-    /// Verbal abessive
-    VAbess,
-
-    /// Supine
-    Sup,
-
-    /// Present tense
-    Prs,
-
-    /// Nomen Actiones
-    NomAg,
-
-    /// Past tense (preteritum)
-    Prt,
-
-    /// First person singular
-    Sg1,
-
-    /// Second person singular
-    Sg2,
-
-    /// Third person singular
-    Sg3,
-
-    /// G3 and G7
-    G3,
-    G7,
-
-    /// Southern Form (dialectal. sme only?)
-    South,
+    /// Derivation
+    Der(&'a str),
 
     /// Dual
     Du,
@@ -131,8 +62,90 @@ pub enum Tag<'a> {
     /// Third person dual
     Du3,
 
-    /// Derivation
-    Der(&'a str),
+    /// ??? used in sma
+    Ela,
+
+    /// Error, specific error inside. E.g. `Err/Orth`
+    Err(&'a str),
+
+    /// Essive
+    Ess,
+
+    /// For a derived word, indicates which POS the word "used to be",
+    /// E.g. "Ex/V" - "this word is derived from a verb".
+    Ex(Pos),
+
+    /// Foc ... focal?
+    Foc(&'a str),
+
+    /// G3 and G7
+    G3,
+    G7,
+
+    /// Genitive
+    Gen,
+
+    /// Gerundium
+    Ger,
+
+    /// Gram
+    Gram(&'a str),
+
+    /// Homonyms
+    Hom1,
+    Hom2,
+    Hom3,
+
+    /// Intransitive verb
+    IV,
+
+    /// Illative
+    Ill,
+
+    /// Imperative (mood)
+    Imprt,
+
+    /// Second Imperative
+    ImprtII,
+
+    /// Indicative
+    Ind,
+
+    /// Indefinite (noun)
+    Indef,
+
+    /// Ine used in sma
+    Ine,
+
+    /// Infintive (verb)
+    Inf,
+
+    /// Interrogative
+    Interr,
+
+    /// Locative
+    Loc,
+
+    /// Negation verb
+    Neg,
+
+    /// Neutral (gender?)
+    Neu,
+
+    /// Nominative
+    Nom,
+
+    /// Nomen Actiones
+    NomAg,
+
+    /// Ordinal
+    Ord,
+
+    /// Personal pronoun
+    Pers,
+
+    /// Plural (noun)
+    Pl,
 
     /// First person plural
     Pl1,
@@ -143,72 +156,96 @@ pub enum Tag<'a> {
     /// Third person plural
     Pl3,
 
-    /// Abbreviation
-    ABBR,
+    /// A plan POS by itself.
+    Pos(Pos),
 
-    /// Negative form of the verb
-    ConNeg,
+    /// Potential
+    Pot,
 
-    /// Negative form of the verb (II)
-    ConNegII,
+    /// Perfect participle
+    PrfPrc,
 
-    /// Transitive verb
-    TV,
+    /// Proper Noun
+    Prop,
 
-    /// Intransitive verb
-    IV,
+    /// Present tense
+    Prs,
+
+    /// Present participle
+    PrsPrc,
+
+    /// Past tense (preteritum)
+    Prt,
+
+    /// First person dual possessive suffix
+    PxDu1,
+
+    /// Second person dual possessive suffix
+    PxDu2,
+
+    /// Third person dual possessive suffix
+    PxDu3,
+
+    /// First person plural possessive suffix
+    PxPl1,
+
+    /// Second person plural possessive suffix
+    PxPl2,
+
+    /// Third person plural possessive suffix
+    PxPl3,
+
+    /// First person singular possessive suffix
+    PxSg1,
+
+    /// Second person singular possessive suffix
+    PxSg2,
+
+    /// Third person singular possessive suffix
+    PxSg3,
 
     /// Question particle
     Qst,
 
-    /// ??? used in sma
-    Ela,
+    /// TODO: What is this?
+    Qu,
 
-    /// Ine used in sma
-    Ine,
+    /// Reciprocal
+    Recipr,
 
-    /// Foc ... focal?
-    Foc(&'a str),
+    /// Reflecsive
+    Refl,
 
-    /// Demonstrative
-    Dem,
-
-    /// Acronym
-    Acr,
-
-    /// Accusative
-    Acc,
-
-    /// Comitative
-    Com,
-
-    /// Nominative
-    Nom,
-
-    /// Homonyms
-    Hom1,
-    Hom2,
-    Hom3,
-
-    /// Genitive
-    Gen,
-
-    /// Gram
-    Gram(&'a str),
-
-    /// For a derived word, indicates which POS the word "used to be",
-    /// E.g. "Ex/V" - "this word is derived from a verb".
-    Ex(Pos),
-
-    /// Error, specific error inside. E.g. `Err/Orth`
-    Err(&'a str),
+    /// Relative
+    Rel,
 
     /// Semantic tag, e.g. "Sem/Anim". The general form is "Sem/*". Many
     /// things are possible
     Sem(&'a str),
 
-    /// Allegro
-    Allegro,
+    /// Singular (noun)
+    Sg,
+
+    /// First person singular
+    Sg1,
+
+    /// Second person singular
+    Sg2,
+
+    /// Third person singular
+    Sg3,
+
+    /// Southern Form (dialectal. sme only?)
+    South,
+
+    /// Supine
+    Sup,
+
+    /// Transitive verb
+    TV,
+
+    /// Some other, unknown tag.
+    Unknown(&'a str),
 
     /// Variants
     V1,
@@ -232,30 +269,14 @@ pub enum Tag<'a> {
     V19,
     V20,
 
-    /// Some other, unknown tag.
-    Unknown(&'a str),
+    /// Verbal abessive
+    VAbess,
 
-    /// Relative
-    Rel,
+    /// Verbal genitive
+    VGen,
 
-    /// First person dual possessive suffix
-    PxDu1,
-    /// Second person dual possessive suffix
-    PxDu2,
-    /// Third person dual possessive suffix
-    PxDu3,
-    /// First person plural possessive suffix
-    PxPl1,
-    /// Second person plural possessive suffix
-    PxPl2,
-    /// Third person plural possessive suffix
-    PxPl3,
-    /// First person singular possessive suffix
-    PxSg1,
-    /// Second person singular possessive suffix
-    PxSg2,
-    /// Third person singular possessive suffix
-    PxSg3,
+    /// Word boundrary
+    WordBoundry,
 }
 
 impl Tag<'_> {
@@ -286,6 +307,26 @@ impl Tag<'_> {
     pub fn is_der(&self) -> bool {
         matches!(self, Tag::Der(_))
     }
+
+    pub fn is_subclass(&self) -> bool {
+        matches!(
+            self,
+            Tag::Neg
+                | Tag::Prop
+                | Tag::G3
+                | Tag::G7
+                | Tag::NomAg
+                | Tag::Ord
+                | Tag::Pers
+                | Tag::Rel
+                | Tag::Interr
+                | Tag::Dem
+                | Tag::Indef
+                | Tag::Refl
+                | Tag::Recipr
+                | Tag::Qu
+        )
+    }
 }
 
 impl From<Pos> for Tag<'_> {
@@ -299,7 +340,7 @@ impl std::fmt::Display for Tag<'_> {
         use Tag::*;
         match self {
             Tag::Pos(pos) => write!(f, "{pos}"),
-            ABBR => write!(f, "ABBR"),
+            //ABBR => write!(f, "ABBR"),
             Acc => write!(f, "Acc"),
             Acr => write!(f, "Acr"),
             Actio => write!(f, "Actio"),
@@ -307,7 +348,8 @@ impl std::fmt::Display for Tag<'_> {
             Attr => write!(f, "Attr"),
             Arab => write!(f, "Arab"),
             Card => write!(f, "Card"),
-            Cmp(s) => write!(f, "Cmp/{s}"),
+            Cmp => write!(f, "Cmp"),
+            CmpX(s) => write!(f, "Cmp/{s}"),
             Com => write!(f, "Com"),
             Ord => write!(f, "Ord"),
             ConNeg => write!(f, "ConNeg"),
@@ -369,6 +411,7 @@ impl std::fmt::Display for Tag<'_> {
             PxSg1 => write!(f, "PxSg1"),
             PxSg2 => write!(f, "PxSg2"),
             PxSg3 => write!(f, "PxSg3"),
+            Qu => write!(f, "Qu"),
             Qst => write!(f, "Qst"),
             Sem(s) => write!(f, "Sem/{s}"),
             South => write!(f, "South"),
@@ -401,7 +444,7 @@ impl std::fmt::Display for Tag<'_> {
             V20 => write!(f, "v20"),
             VAbess => write!(f, "VAbess"),
             VGen => write!(f, "VGen"),
-            //_ => write!(f, "nothin'"),
+            WordBoundry => write!(f, "#"),
         }
     }
 }
@@ -450,6 +493,15 @@ pub enum OwnedTag {
     /// Neutral (gender?)
     Neu,
 
+    /// "#"
+    WordBoundry,
+
+    /// "Cmp" by itself
+    Cmp,
+
+    /// Cmp/xxx
+    CmpX(String),
+
     /// Gerundium
     Ger,
 
@@ -459,8 +511,8 @@ pub enum OwnedTag {
     /// Actio
     Actio,
 
-    /// Cmp/xxx
-    Cmp(String),
+    /// TODO: This is a subclass, but what does it mean?
+    Qu,
 
     /// Potential
     Pot,
@@ -544,9 +596,8 @@ pub enum OwnedTag {
     /// Third person plural
     Pl3,
 
-    /// Abbreviation
-    ABBR,
-
+    // /// Abbreviation  (TODO: same as ABBR above)
+    // ABBR,
     /// Negative form of the verb
     ConNeg,
 
@@ -662,6 +713,32 @@ pub enum OwnedTag {
     PxSg3,
 }
 
+impl OwnedTag {
+    pub fn is_subclass(&self) -> bool {
+        matches!(
+            self,
+            OwnedTag::Neg
+                | OwnedTag::Prop
+                | OwnedTag::G3
+                | OwnedTag::G7
+                | OwnedTag::NomAg
+                | OwnedTag::Ord
+                | OwnedTag::Pers
+                | OwnedTag::Rel
+                | OwnedTag::Interr
+                | OwnedTag::Dem
+                | OwnedTag::Indef
+                | OwnedTag::Refl
+                | OwnedTag::Recipr
+                | OwnedTag::Qu
+        )
+    }
+
+    pub fn is_pos(&self) -> bool {
+        matches!(self, OwnedTag::Pos(_))
+    }
+}
+
 impl<'a> std::borrow::Borrow<Tag<'a>> for OwnedTag {
     fn borrow(&self) -> &Tag<'a> {
         unimplemented!()
@@ -687,7 +764,7 @@ impl std::fmt::Display for OwnedTag {
         use OwnedTag::*;
         match self {
             OwnedTag::Pos(pos) => write!(f, "{pos}"),
-            ABBR => write!(f, "ABBR"),
+            //ABBR => write!(f, "ABBR"),
             Acc => write!(f, "Acc"),
             Acr => write!(f, "Acr"),
             Actio => write!(f, "Actio"),
@@ -695,7 +772,8 @@ impl std::fmt::Display for OwnedTag {
             Attr => write!(f, "Attr"),
             Arab => write!(f, "Arab"),
             Card => write!(f, "Card"),
-            Cmp(s) => write!(f, "Cmp/{s}"),
+            Cmp => write!(f, "Cmp"),
+            CmpX(s) => write!(f, "Cmp/{s}"),
             Com => write!(f, "Com"),
             Ord => write!(f, "Ord"),
             ConNeg => write!(f, "ConNeg"),
@@ -729,6 +807,7 @@ impl std::fmt::Display for OwnedTag {
             Ine => write!(f, "Ine"),
             Refl => write!(f, "Refl"),
             Rel => write!(f, "Rel"),
+            Qu => write!(f, "Qu"),
             Inf => write!(f, "Inf"),
             IV => write!(f, "IV"),
             Loc => write!(f, "Loc"),
@@ -789,15 +868,16 @@ impl std::fmt::Display for OwnedTag {
             V20 => write!(f, "v20"),
             VAbess => write!(f, "VAbess"),
             VGen => write!(f, "VGen"),
-            //_ => write!(f, "nothin'"),
+            WordBoundry => write!(f, "#"),
         }
     }
 }
 
 impl serde::Serialize for OwnedTag {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: serde::Serializer {
+    where
+        S: serde::Serializer,
+    {
         // TODO write "directly to serializer"?
         serializer.serialize_str(&self.to_string())
     }
@@ -805,7 +885,7 @@ impl serde::Serialize for OwnedTag {
 
 fn tag_to_owned_tag(tag: &Tag) -> OwnedTag {
     match tag {
-        Tag::ABBR => OwnedTag::ABBR,
+        //Tag::ABBR => OwnedTag::ABBR,
         Tag::Acc => OwnedTag::Acc,
         Tag::Acr => OwnedTag::Acr,
         Tag::Actio => OwnedTag::Actio,
@@ -813,7 +893,8 @@ fn tag_to_owned_tag(tag: &Tag) -> OwnedTag {
         Tag::Arab => OwnedTag::Arab,
         Tag::Attr => OwnedTag::Attr,
         Tag::Card => OwnedTag::Card,
-        Tag::Cmp(s) => OwnedTag::Cmp((*s).to_owned()),
+        Tag::Cmp => OwnedTag::Cmp,
+        Tag::CmpX(s) => OwnedTag::CmpX((*s).to_owned()),
         Tag::Com => OwnedTag::Com,
         Tag::ConNeg => OwnedTag::ConNeg,
         Tag::ConNegII => OwnedTag::ConNegII,
@@ -847,8 +928,8 @@ fn tag_to_owned_tag(tag: &Tag) -> OwnedTag {
         Tag::Inf => OwnedTag::Inf,
         Tag::Interr => OwnedTag::Interr,
         Tag::Loc => OwnedTag::Loc,
-        Tag::Neu => OwnedTag::Neu,
         Tag::Neg => OwnedTag::Neg,
+        Tag::Neu => OwnedTag::Neu,
         Tag::Nom => OwnedTag::Nom,
         Tag::NomAg => OwnedTag::NomAg,
         Tag::Ord => OwnedTag::Ord,
@@ -874,6 +955,7 @@ fn tag_to_owned_tag(tag: &Tag) -> OwnedTag {
         Tag::PxSg2 => OwnedTag::PxSg2,
         Tag::PxSg3 => OwnedTag::PxSg3,
         Tag::Qst => OwnedTag::Qst,
+        Tag::Qu => OwnedTag::Qu,
         Tag::Recipr => OwnedTag::Recipr,
         Tag::Refl => OwnedTag::Refl,
         Tag::Rel => OwnedTag::Rel,
@@ -908,13 +990,15 @@ fn tag_to_owned_tag(tag: &Tag) -> OwnedTag {
         Tag::V9 => OwnedTag::V9,
         Tag::VAbess => OwnedTag::VAbess,
         Tag::VGen => OwnedTag::VGen,
+        Tag::WordBoundry => OwnedTag::WordBoundry,
     }
 }
 
 fn tag_from_str<'a>(s: &'a str) -> Tag<'a> {
     match s.as_bytes() {
+        b"#" => Tag::WordBoundry,
         b"A" => Tag::Pos(Pos::A),
-        b"ABBR" => Tag::ABBR,
+        b"ABBR" => Tag::Pos(Pos::ABBR),
         b"Acc" => Tag::Acc,
         b"Acr" | b"ACR" => Tag::Acr,
         b"Actio" => Tag::Actio,
@@ -1021,6 +1105,12 @@ fn tag_from_str<'a>(s: &'a str) -> Tag<'a> {
         b"v7" => Tag::V7,
         b"v8" => Tag::V8,
         b"v9" => Tag::V9,
+        b"Qu" => Tag::Qu,
+        // Cmp/
+        [b'C', b'm', b'p', b'/', xx @ ..] => {
+            Tag::CmpX(unsafe { core::str::from_utf8_unchecked(xx) })
+        }
+        b"Cmp" => Tag::Cmp,
         // Der/xx
         [b'D', b'e', b'r', b'/', xx @ ..] => {
             Tag::Der(unsafe { core::str::from_utf8_unchecked(xx) })
@@ -1036,10 +1126,6 @@ fn tag_from_str<'a>(s: &'a str) -> Tag<'a> {
         // Foc/
         [b'F', b'o', b'c', b'/', xx @ ..] => {
             Tag::Foc(unsafe { core::str::from_utf8_unchecked(xx) })
-        }
-        // Cmp/
-        [b'C', b'm', b'p', b'/', xx @ ..] => {
-            Tag::Cmp(unsafe { core::str::from_utf8_unchecked(xx) })
         }
         // Sem/
         [b'S', b'e', b'm', b'/', xx @ ..] => {
@@ -1059,4 +1145,3 @@ fn tag_from_str<'a>(s: &'a str) -> Tag<'a> {
         _ => Tag::Unknown(s),
     }
 }
-
