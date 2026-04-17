@@ -4,6 +4,9 @@ use crate::pos::{Pos, PosFromStrError};
 
 #[derive(Debug, PartialEq)]
 pub enum Tag<'a> {
+    /// Abessive
+    Abe,
+
     /// Accusative
     Acc,
 
@@ -140,6 +143,9 @@ pub enum Tag<'a> {
 
     /// Ordinal
     Ord,
+
+    /// Partitive
+    Par,
 
     /// Personal pronoun
     Pers,
@@ -341,6 +347,7 @@ impl std::fmt::Display for Tag<'_> {
         match self {
             Tag::Pos(pos) => write!(f, "{pos}"),
             //ABBR => write!(f, "ABBR"),
+            Abe => write!(f, "Abe"),
             Acc => write!(f, "Acc"),
             Acr => write!(f, "Acr"),
             Actio => write!(f, "Actio"),
@@ -393,6 +400,7 @@ impl std::fmt::Display for Tag<'_> {
             Hom1 => write!(f, "Hom1"),
             Hom2 => write!(f, "Hom2"),
             Hom3 => write!(f, "Hom3"),
+            Par => write!(f, "Par"),
             Pl => write!(f, "Pl"),
             Pl1 => write!(f, "Pl1"),
             Pl2 => write!(f, "Pl2"),
@@ -453,6 +461,8 @@ impl std::fmt::Display for Tag<'_> {
 pub enum OwnedTag {
     /// A plan POS by itself.
     Pos(Pos),
+    Abe,
+    Par,
     Pl,
     Sg,
     Indef,
@@ -765,6 +775,7 @@ impl std::fmt::Display for OwnedTag {
         match self {
             OwnedTag::Pos(pos) => write!(f, "{pos}"),
             //ABBR => write!(f, "ABBR"),
+            Abe => write!(f, "Abe"),
             Acc => write!(f, "Acc"),
             Acr => write!(f, "Acr"),
             Actio => write!(f, "Actio"),
@@ -817,6 +828,7 @@ impl std::fmt::Display for OwnedTag {
             Hom1 => write!(f, "Hom1"),
             Hom2 => write!(f, "Hom2"),
             Hom3 => write!(f, "Hom3"),
+            Par => write!(f, "Par"),
             Pl => write!(f, "Pl"),
             Pl1 => write!(f, "Pl1"),
             Pl2 => write!(f, "Pl2"),
@@ -886,6 +898,7 @@ impl serde::Serialize for OwnedTag {
 fn tag_to_owned_tag(tag: &Tag) -> OwnedTag {
     match tag {
         //Tag::ABBR => OwnedTag::ABBR,
+        Tag::Abe => OwnedTag::Abe,
         Tag::Acc => OwnedTag::Acc,
         Tag::Acr => OwnedTag::Acr,
         Tag::Actio => OwnedTag::Actio,
@@ -933,6 +946,7 @@ fn tag_to_owned_tag(tag: &Tag) -> OwnedTag {
         Tag::Nom => OwnedTag::Nom,
         Tag::NomAg => OwnedTag::NomAg,
         Tag::Ord => OwnedTag::Ord,
+        Tag::Par => OwnedTag::Par,
         Tag::Pers => OwnedTag::Pers,
         Tag::Pl => OwnedTag::Pl,
         Tag::Pl1 => OwnedTag::Pl1,
@@ -999,6 +1013,7 @@ fn tag_from_str<'a>(s: &'a str) -> Tag<'a> {
         b"#" => Tag::WordBoundry,
         b"A" => Tag::Pos(Pos::A),
         b"ABBR" => Tag::Pos(Pos::ABBR),
+        b"Abe" => Tag::Abe,
         b"Acc" => Tag::Acc,
         b"Acr" | b"ACR" => Tag::Acr,
         b"Actio" => Tag::Actio,
@@ -1048,6 +1063,7 @@ fn tag_from_str<'a>(s: &'a str) -> Tag<'a> {
         b"NomAg" => Tag::NomAg,
         b"Num" => Tag::Pos(Pos::Num),
         b"Ord" => Tag::Ord,
+        b"Par" => Tag::Par,
         b"Pcle" => Tag::Pos(Pos::Pcle),
         b"Pers" => Tag::Pers,
         b"Pl" => Tag::Pl,
