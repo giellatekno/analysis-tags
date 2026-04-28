@@ -21,7 +21,7 @@ pub fn unknown_tag(s: &str) -> UnknownTagError {
 
 /// An fst Tag. Every single possible tag in our infrastructure is its own
 /// variant.
-#[derive(Debug, PartialEq, AsRefStr, EnumString, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, PartialEq, Eq, AsRefStr, EnumString, serde::Serialize, serde::Deserialize)]
 #[strum(
     parse_err_fn = unknown_tag,
     parse_err_ty = UnknownTagError
