@@ -22,7 +22,7 @@ pub fn unknown_tag(s: &str) -> UnknownTagError {
 
 /// An fst Tag. Every single possible tag in our infrastructure is its own
 /// variant.
-#[derive(Debug, Copy, Clone, PartialEq, Eq, AsRefStr, EnumString, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq, AsRefStr, EnumString, Serialize, Deserialize)]
 #[strum(
     parse_err_fn = unknown_tag,
     parse_err_ty = UnknownTagError
