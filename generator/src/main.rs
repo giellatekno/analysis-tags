@@ -267,6 +267,8 @@ fn main() -> anyhow::Result<()> {
         pub fn unknown_tag(s: &str) -> UnknownTagError {{
             UnknownTagError(s.to_string())
         }}
+        /// An fst Tag. Every single possible tag in our infrastructure is its own
+        /// variant.
         #[derive(Debug, PartialEq, AsRefStr, EnumString)]
         #[strum(
             parse_err_fn = unknown_tag,
