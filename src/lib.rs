@@ -1,4 +1,3 @@
-
 #![allow(non_camel_case_types)]
 use strum_macros::{AsRefStr, EnumString};
 /// Error type returned from `Tag::try_from` if no tag is matched.
@@ -18,9 +17,9 @@ pub fn unknown_tag(s: &str) -> UnknownTagError {
 /// variant.
 #[derive(Debug, PartialEq, AsRefStr, EnumString)]
 #[strum(
-            parse_err_fn = unknown_tag,
-            parse_err_ty = UnknownTagError
-        )]
+    parse_err_fn = unknown_tag,
+    parse_err_ty = UnknownTagError
+)]
 pub enum Tag {
     /// cwd: (no comment)
     #[strum(serialize = "0Sg/Pl")]
@@ -2704,7 +2703,7 @@ pub enum Tag {
     Clt_SLASH_while,
     /// koi: (no comment)
     #[strum(serialize = "Clt/а")]
-    Clt_SLASH_a,
+    Clt_SLASH__CYRILLIC_a,
     /// koi: (no comment)
     #[strum(serialize = "Clt/ӧ")]
     Clt_SLASH_ӧ,
@@ -5511,13 +5510,13 @@ pub enum Tag {
     Der_SLASH_Этӥ,
     /// koi: (no comment)
     #[strum(serialize = "Der/а")]
-    Der_SLASH_a,
+    Der_SLASH__CYRILLIC_a,
     /// koi: (no comment)
     #[strum(serialize = "Der/ал")]
-    Der_SLASH_aл,
+    Der_SLASH__CYRILLIC_aл,
     /// koi: (no comment)
     #[strum(serialize = "Der/ась")]
-    Der_SLASH_aсь,
+    Der_SLASH__CYRILLIC_aсь,
     /// koi: (no comment)
     #[strum(serialize = "Der/выв")]
     Der_SLASH_выв,
@@ -5538,7 +5537,7 @@ pub enum Tag {
     Der_SLASH_кежлӧ,
     /// koi: (no comment)
     #[strum(serialize = "Der/коста")]
-    Der_SLASH_костa,
+    Der_SLASH_кост_CYRILLIC_a,
     /// koi: (no comment)
     #[strum(serialize = "Der/кості")]
     Der_SLASH_кості,
@@ -5550,10 +5549,10 @@ pub enum Tag {
     Der_SLASH_л,
     /// koi: (no comment)
     #[strum(serialize = "Der/ла")]
-    Der_SLASH_лa,
+    Der_SLASH_л_CYRILLIC_a,
     /// koi: (no comment)
     #[strum(serialize = "Der/ладор")]
-    Der_SLASH_лaдор,
+    Der_SLASH_л_CYRILLIC_aдор,
     /// koi: (no comment)
     #[strum(serialize = "Der/лун")]
     Der_SLASH_лун,
@@ -5944,7 +5943,7 @@ pub enum Tag {
     Dial_SLASH_v,
     /// koi: (no comment)
     #[strum(serialize = "Dial/сев.чаз.")]
-    Dial_SLASH_сев_DOT_чaз_DOT_,
+    Dial_SLASH_сев_DOT_ч_CYRILLIC_aз_DOT_,
     /// myv: (no comment)
     /// mdf: (no comment)
     #[strum(serialize = "Dig1")]

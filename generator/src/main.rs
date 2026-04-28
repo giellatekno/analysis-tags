@@ -144,7 +144,7 @@ fn clean_tag(tag: &str) -> Option<String> {
             // cyrillic M -> latin M
             'М' => out.push('M'),
             // cyrillic a -> latin a
-            'а' => out.push('a'),
+            'а' => out.push_str("_CYRILLIC_a"),
             '%' | '→' => out.push('_'),
             '-' => out.push_str("_MINUS_"),
             '.' => out.push_str("_DOT_"),
