@@ -99,16 +99,28 @@ fn parse_line<'a>(line: &'a str) -> Option<Line<'a>> {
     })
 }
 
-/// Find the tag on the line. If the line doesn't start with "+", return None. The tag
-/// is everything from (not including) the first "+", and the ending character. The
-/// ending character is any whitespace, tab, the comment character (!), or the colon,
+/// Find the tag on the line. If the line doesn't start with "+", return None.
+///
+/// The tag is everything from (not including) the first "+", and the ending character.
+///
+/// Many characters end the reading of the tag. These are:
+///
+/// - (implicit) newline ('\n'): A tag cannot span more than one line. However, we iterate
+///                              over lines anyway, so this isn't really handled here.
+/// - ' ' or '\t': A tag never has spaces in them, so we know the tag is done here.
+/// - '!': Exclamation mark is the comment character in lexc.
+/// - '+': Plus is the character that denotes a new tag starting, so the tag must be done
+///        here.
+/// - ':', '%', '’', '^', ',': Any other of these sign characters are used for some other
+///                            purpose, but is definetely not a tag we are interested in.
+/// The ending character is any whitespace, tab, the comment character (!), or the colon,
 /// percent, or a plus (which indicates another tag).
 fn find_tag(line: &str) -> Option<&str> {
-    line.strip_prefix("+").map(|line| {
-        line.find(|ch| matches!(ch, ' ' | '\t' | '!' | ':' | '%' | '+'))
-            .map(|i| &line[..i])
-            .unwrap_or(line)
-    })
+    fn end_char(ch: char) -> bool {
+        matches!(ch, ' ' | '\t' | '!' | '+' | ':' | '%' | '’' | '^' | ',')
+    }
+    line.strip_prefix("+")
+        .map(|line| line.find(end_char).map(|i| &line[..i]).unwrap_or(line))
 }
 
 /// Make the tag into a valid enum variant, but keep the original, because we need to be
@@ -135,6 +147,9 @@ fn clean_tag(tag: &str) -> Option<String> {
             'а' => out.push('a'),
             '%' | '→' => out.push('_'),
             '-' => out.push_str("_MINUS_"),
+            '.' => out.push_str("_DOT_"),
+            '(' => out.push_str("_LEFTPAREN_"),
+            ')' => out.push_str("_RIGHTPAREN_"),
             '/' => out.push_str("_SLASH_"),
             // an actual En Dash was found, probably meant just a minus/hyphen
             '–' => out.push_str("_EMDASH_"),
