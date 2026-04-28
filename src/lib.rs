@@ -21,7 +21,9 @@ pub fn unknown_tag(s: &str) -> UnknownTagError {
 }
 
 /// An fst Tag. Every single possible tag in our infrastructure is its own
-/// variant.
+/// variant. **Note: Tag variants are unstable. Do not rely on the variants themselves,
+/// but rather the string they serializes to and from, which are the same as the actual
+/// tags they match.**
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq, AsRefStr, EnumString, Serialize, Deserialize)]
 #[strum(
     parse_err_fn = unknown_tag,
@@ -25563,10 +25565,13 @@ pub enum Tag {
 
 impl Tag {
     pub fn is_pos(&self) -> bool {
-        use Tag::{A, ABBR, Adp, CC, CLB, CS, Det, Interj, N, Num, Pcle, Po, Pr, Pron, URL, V};
+        use Tag::{
+            A, ABBR, Adp, Adv, CC, CLB, CS, Det, Interj, N, Num, Pcle, Po, Pr, Pron, URL, V,
+        };
         matches!(
             self,
             A | ABBR
+                | Adv
                 | Adp
                 | CC
                 | CLB
