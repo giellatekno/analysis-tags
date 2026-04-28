@@ -1,5 +1,6 @@
 #![allow(non_camel_case_types)]
 
+use serde::{Deserialize, Serialize};
 use strum_macros::{AsRefStr, EnumString};
 
 /// Error type returned from `Tag::try_from` if no tag is matched.
@@ -21,7 +22,7 @@ pub fn unknown_tag(s: &str) -> UnknownTagError {
 
 /// An fst Tag. Every single possible tag in our infrastructure is its own
 /// variant.
-#[derive(Debug, PartialEq, Eq, AsRefStr, EnumString, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, AsRefStr, EnumString, Serialize, Deserialize)]
 #[strum(
     parse_err_fn = unknown_tag,
     parse_err_ty = UnknownTagError
