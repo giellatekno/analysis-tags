@@ -1,3 +1,35 @@
+#![allow(non_camel_case_types)]
+
+use strum_macros::{AsRefStr, EnumString};
+
+/// Error type returned from `Tag::try_from` if no tag is matched.
+#[derive(Debug)]
+pub struct UnknownTagError(String);
+
+impl ::std::fmt::Display for UnknownTagError {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl ::std::error::Error for UnknownTagError {}
+
+/// Initializer for the `UnknownTagError` error, which sets the offending string.
+pub fn unknown_tag(s: &str) -> UnknownTagError {
+    UnknownTagError(s.to_string())
+}
+
+/// An fst Tag. Every single possible tag in our infrastructure is its own
+/// variant.
+#[derive(Debug, PartialEq, AsRefStr, EnumString, serde::Serialize, serde::Deserialize)]
+#[strum(
+    parse_err_fn = unknown_tag,
+    parse_err_ty = UnknownTagError
+)]
+pub enum Tag {
+    //%%%%%GENERATED_CODE_HERE%%%%%
+}
+
 impl Tag {
     pub fn is_pos(&self) -> bool {
         use Tag::{Adp, Det, Interj, Num, Pcle, Po, Pr, Pron, A, ABBR, CC, CLB, CS, N, URL, V};
@@ -211,5 +243,12 @@ mod tests {
         t("v20", Tag::v20);
         t("VAbess", Tag::VAbess);
         t("VGen", Tag::VGen);
+    }
+
+    #[test]
+    fn serialize_and_deserialize() {
+        let string: String = serde_json::to_string(&Tag::N).unwrap();
+        let x: Tag = serde_json::from_str("\"N\"").expect("parsed as tag");
+        assert_eq!(x, Tag::N);
     }
 }

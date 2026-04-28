@@ -1,21 +1,27 @@
 #![allow(non_camel_case_types)]
+
 use strum_macros::{AsRefStr, EnumString};
+
 /// Error type returned from `Tag::try_from` if no tag is matched.
 #[derive(Debug)]
 pub struct UnknownTagError(String);
+
 impl ::std::fmt::Display for UnknownTagError {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
         write!(f, "{}", self.0)
     }
 }
+
 impl ::std::error::Error for UnknownTagError {}
+
 /// Initializer for the `UnknownTagError` error, which sets the offending string.
 pub fn unknown_tag(s: &str) -> UnknownTagError {
     UnknownTagError(s.to_string())
 }
+
 /// An fst Tag. Every single possible tag in our infrastructure is its own
 /// variant.
-#[derive(Debug, PartialEq, AsRefStr, EnumString)]
+#[derive(Debug, PartialEq, AsRefStr, EnumString, serde::Serialize, serde::Deserialize)]
 #[strum(
     parse_err_fn = unknown_tag,
     parse_err_ty = UnknownTagError
@@ -25604,7 +25610,7 @@ impl Tag {
     /// Helper function to see check if `self` is `Err/xxx`, and if so, if the `xxx`
     /// starts with the given `prefix`. Returns `None` if `self` is not `Err/xxx`.
     #[deprecated(
-        since = "0.2.0",
+        since = "0.2",
         note = "use self.err().map(|error| error.starts_with(prefix)) instead"
     )]
     pub fn is_err_starts_with(&self, prefix: &str) -> Option<bool> {
@@ -25767,5 +25773,12 @@ mod tests {
         t("v20", Tag::v20);
         t("VAbess", Tag::VAbess);
         t("VGen", Tag::VGen);
+    }
+
+    #[test]
+    fn serialize_and_deserialize() {
+        let string: String = serde_json::to_string(&Tag::N).unwrap();
+        let x: Tag = serde_json::from_str("\"N\"").expect("parsed as tag");
+        assert_eq!(x, Tag::N);
     }
 }
