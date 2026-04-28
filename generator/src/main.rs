@@ -254,6 +254,7 @@ fn main() -> anyhow::Result<()> {
         "
         #![allow(non_camel_case_types)]
         use strum_macros::{{AsRefStr, EnumString}};
+        /// Error type returned from `Tag::try_from` if no tag is matched.
         #[derive(Debug)]
         pub struct UnknownTagError(String);
         impl ::std::fmt::Display for UnknownTagError {{
@@ -262,6 +263,7 @@ fn main() -> anyhow::Result<()> {
             }}
         }}
         impl ::std::error::Error for UnknownTagError {{}}
+        /// Initializer for the `UnknownTagError` error, which sets the offending string.
         pub fn unknown_tag(s: &str) -> UnknownTagError {{
             UnknownTagError(s.to_string())
         }}
